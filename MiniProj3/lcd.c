@@ -14,6 +14,7 @@
 #include "common_macros.h" /* To use the macros like SET_BIT */
 #include "lcd.h"
 #include "gpio.h"
+#include "stdlib.h"
 
 /*******************************************************************************
  *                      Functions Definitions                                  *

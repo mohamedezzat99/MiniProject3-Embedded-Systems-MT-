@@ -30,7 +30,6 @@ int main() {
 			state = Stop;
 			speed = 0;
 			fanState = 0;
-			LCD_displayString("Fan is Off");
 		} else if (temp >= 120) {
 			speed = 100;
 		} else if (temp >= 90) {
@@ -41,9 +40,9 @@ int main() {
 			speed = 25;
 		}
 		DcMotor_Rotate(state, speed);
-		fanState ? LCD_displayStringRowColumn(1, 4, "Fan Is ON ") : LCD_displayStringRowColumn(1, 4, "Fan Is OFF");
-		LCD_displayStringRowColumn(2, 4, "Temp = ");
-		LCD_moveCursor(2, 10);
+		fanState ? LCD_displayStringRowColumn(0, 4, "Fan Is ON ") : LCD_displayStringRowColumn(0, 4, "Fan Is OFF");
+		LCD_displayStringRowColumn(1, 4, "Temp = ");
+		LCD_moveCursor(1, 10);
 		LCD_intgerToString(temp);
 	}
 }
