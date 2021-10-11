@@ -8,7 +8,7 @@
 #include "dcmotor.h"
 #include "gpio.h"
 #include "pwm.h"
-
+#include "lcd.h"
 
 
 void DcMotor_Init(void) {
@@ -18,11 +18,12 @@ void DcMotor_Init(void) {
 
 	GPIO_writePin(DCMOTOR_PORT_ID, DCMOTOR_PIN_IN1, 0);
 	GPIO_writePin(DCMOTOR_PORT_ID, DCMOTOR_PIN_IN2, 0);
-	GPIO_writePin(DCMOTOR_PORT_ID, DCMOTOR_PIN_E, 0);
+	GPIO_writePin(DCMOTOR_PORT_ID, DCMOTOR_PIN_E, 1);
 }
 
 void DcMotor_Rotate(DcMotor_State state, uint8 speed) {
 	GPIO_writePin(DCMOTOR_PORT_ID, DCMOTOR_PIN_IN1, (state & 0x01)); /* take LSB and put it on IN1 pin */
 	GPIO_writePin(DCMOTOR_PORT_ID, DCMOTOR_PIN_IN2, (state & 0x02)); /* take 2nd LSB and put it on IN2 pin */
+	speed=(speed*255)/100; /* convert value from 0-100 to 0-255 */
 	PWM_Timer0_Init(speed);
 }

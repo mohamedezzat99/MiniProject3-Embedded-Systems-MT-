@@ -14,7 +14,7 @@ void PWM_Timer0_Init(uint8 set_duty_cycle)
 
 	TCNT0 = 0; //Set Timer Initial value
 
-	OCR0  = (set_duty_cycle/MAX_TIMER0_VALUE) * 100; // Set Compare Value
+	OCR0  = set_duty_cycle; // Set Compare Value
 
 	DDRB  = DDRB | (1<<PB3); //set PB3/OC0 as output pin --> pin where the PWM signal is generated from MC.
 	/* Configure timer control register

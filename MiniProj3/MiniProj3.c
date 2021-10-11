@@ -17,15 +17,20 @@ int main() {
 	DcMotor_State state;
 	uint8 fanState;
 	ADC_ConfigType ADC_Config;
-	ADC_Config.prescaler = Div8;
-	ADC_Config.ref_volt = internalVolt;
+	ADC_Config.prescaler = Div8; /* use F_CPU/8 */
+	ADC_Config.ref_volt = internalVolt; /* use internal reference volt for ADC */
+
+	/* init used modules */
 	DcMotor_Init();
 	LCD_init();
 	ADC_init(&ADC_Config);
+
+	LCD_displayStringRowColumn(0, 4, "Fan Is ");
+	LCD_displayStringRowColumn(1, 4, "Temp = ");
 	while (1) {
 		temp = LM35_getTemperature();
 		state = CW; /* init state as CW and only change it if fan is off */
-		fanState = 1;
+		fanState = 1; /* init fan state as on and only change it if fan is off */
 		if (temp < 30) {
 			state = Stop;
 			speed = 0;
@@ -40,10 +45,17 @@ int main() {
 			speed = 25;
 		}
 		DcMotor_Rotate(state, speed);
-		fanState ? LCD_displayStringRowColumn(0, 4, "Fan Is ON ") : LCD_displayStringRowColumn(0, 4, "Fan Is OFF");
-		LCD_displayStringRowColumn(1, 4, "Temp = ");
+		fanState ?
+				LCD_displayStringRowColumn(0, 11, "ON ") :
+				LCD_displayStringRowColumn(0, 11, "OFF");
 		LCD_moveCursor(1, 10);
-		LCD_intgerToString(temp);
+
+		if (temp >= 100) {
+			LCD_intgerToString(temp);
+		} else {
+			LCD_intgerToString(temp); /* In case the digital value is three or two or one digits print space in the next digit place */
+			LCD_displayCharacter(' ');
+		}
 	}
 }
 

@@ -9,7 +9,7 @@
 #define PWM_H_
 
 #include "std_types.h"
-#define MAX_TIMER0_VALUE 255
+#define MAX_TIMER0_VALUE (uint8)255
 
 void PWM_Timer0_Init(uint8);
 
